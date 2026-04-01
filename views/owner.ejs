@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Owner Panel</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+
+
+
+  <div class="owner-container">
+      <% if (typeof error !== 'undefined' && error) { %>
+    <div class="owner-popup error"><%= error %></div>
+  <% } else if (typeof success !== 'undefined' && success) { %>
+    <div class="owner-popup success"><%= success %></div>
+  <% } %>
+    
+    <div class="owner-section signup">
+      <a href="/shop" class="admin-btn" style="background:#2563eb;">← Back to Shop</a>
+
+      <h2>Register Owner</h2>
+
+      <form action="/owner/create" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button>Register</button>
+      </form>
+    </div>
+
+    <div class="owner-section login">
+      <h2>Owner Login</h2>
+
+      <form action="/owner/login" method="POST">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button>Login</button>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+
+  <script>
+    const popup = document.querySelector('.owner-popup');
+    if (popup) {
+      setTimeout(() => {
+        popup.style.transition = 'opacity 0.5s';
+        popup.style.opacity = '0';
+        setTimeout(() => popup.remove(), 500);
+      }, 3000);
+    }
+  </script>
+</html>

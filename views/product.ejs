@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Product</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="owner-popup error"><%= error %></div>
+  <% } else if (typeof success !== 'undefined' && success) { %>
+    <div class="owner-popup success"><%= success %></div>
+  <% } %>
+ <a href="/shop" class="admin-btn" style="background:#2563eb;">← Back to Shop</a>
+
+  <div class="product-container">
+    <div class="product-section info">
+      <h2>Product Panel</h2>
+      <p>Add your products here.</p>
+      <p>You can customize colors, price, and more.</p>
+    </div>
+
+    <div class="product-section form">
+      <h2>Add Product</h2>
+
+      <form action="/owner/createproduct" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="ownerId" value="<%= owner._id %>">
+
+        <input type="text" name="name" placeholder="Product Name" required>
+        <input type="number" name="price" placeholder="Price" required>
+        <input type="number" name="discount" placeholder="Discount %" value="0">
+        <input type="file" name="image">
+        <input type="text" name="bgcolor" placeholder="Background Color (e.g. #ffffff)">
+        <input type="text" name="panelcolor" placeholder="Panel Color">
+        <input type="text" name="textcolor" placeholder="Text Color">
+
+        <button type="submit">Create Product</button>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>

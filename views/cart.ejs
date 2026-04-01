@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cart</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body class="shop-body">
+<div style="margin-bottom: 20px;">
+  <a href="/shop" class="admin-btn" style="background:#2563eb;">← Back to Shop</a>
+</div>
+
+  <nav class="navbar">
+    <h1 class="logo">MyShop</h1>
+    <div class="nav-right">
+      <span class="user">👤 <%= user?.email || "User" %></span>
+        <a href="/shop" class="admin-btn" style="background:#2563eb;">← Back to Shop</a>
+      <form action="/user/logout" method="GET">
+        <button class="logout-btn">Logout</button>
+      </form>
+    </div>
+  </nav>
+
+
+  <div class="shop-container">
+    <h2 class="heading">Your Cart</h2>
+<% if (cartProducts && cartProducts.length > 0) { %>
+  <div class="products">
+    <% cartProducts.forEach(product => { %>
+      <div class="product-card" 
+           style="background-color: <%= product.panelcolor || '#f9fafb' %>; 
+                  color: <%= product.textcolor || '#111827' %>;"
+           data-product-id="<%= product.id %>">
+
+        <button class="remove-btn" title="Remove Product">×</button>
+
+        <div style="background-color: <%= product.bgcolor || 'transparent' %>; padding:5px; border-radius:6px;">
+          <img src="<%= product.image || 'https://via.placeholder.com/150' %>" class="product-img" />
+        </div>
+
+        <h3><%= product.name %></h3>
+        <p class="price">₹ <%= product.price %></p>
+      </div>
+    <% }) %>
+  </div>
+<% } else { %>
+  <p>Your cart is empty!</p>
+<% } %>
+
+<script>
+  document.querySelectorAll('.remove-btn').forEach(button => {
+    button.addEventListener('click', async (e) => {
+      const card = e.target.closest('.product-card');
+      const productId = card.dataset.productId;
+
+      try {
+        const res = await fetch(`/products/cart/remove/${productId}`, { method: 'DELETE' });
+        if (res.ok) {
+          card.remove();
+        } else {
+          alert('Failed to remove product from cart');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error removing product');
+      }
+    });
+  });
+</script>
+  </div>
+
+</body>
+</html>
